@@ -33,9 +33,9 @@ export default class SlurpPlugin extends Plugin {
 			try {
 				// Extract custom frontmatter from URI parameters
 				const customFrontmatter: Record<string, string> = {};
+				const skipParams = ['url', 'action']; // action is Obsidian's internal param
 				for (const [key, value] of Object.entries(e)) {
-					// Skip the url parameter and any internal Obsidian params
-					if (key !== 'url' && typeof value === 'string') {
+					if (!skipParams.includes(key) && typeof value === 'string') {
 						customFrontmatter[key] = value;
 					}
 				}
