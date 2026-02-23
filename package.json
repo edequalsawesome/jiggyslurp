@@ -1,6 +1,6 @@
 {
 	"name": "jiggyslurp",
-	"version": "0.3.0b1",
+	"version": "0.3.1",
 	"description": "JiggySlurp - Slurps webpages and saves them as clean Markdown with custom frontmatter support",
 	"main": "main.js",
 	"scripts": {

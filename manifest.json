@@ -1,7 +1,7 @@
 {
 	"id": "jiggyslurp",
 	"name": "JiggySlurp",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"minAppVersion": "0.15.0",
 	"description": "Slurps webpages with custom frontmatter support. Fork of Slurp by inhumantsar.",
 	"author": "edequalsawesome",
