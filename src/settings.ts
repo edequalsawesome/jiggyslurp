@@ -51,6 +51,18 @@ export class SlurpSettingsTab extends PluginSettingTab {
                 })
             );
 
+        new Setting(containerEl)
+            .setName('Custom frontmatter')
+            .setDesc("Add custom frontmatter fields to every clipped note (YAML format, e.g. 'type: article\\nproject: research')")
+            .addTextArea((text) => text
+                .setPlaceholder("type: article\nstatus: unread")
+                .setValue(this.plugin.settings.customFrontmatter || "")
+                .onChange(async (val) => {
+                    this.plugin.settings.customFrontmatter = val;
+                    await this.plugin.saveSettings();
+                })
+            );
+
         new Setting(containerEl).setName('Properties').setHeading();
 
         new Setting(containerEl)

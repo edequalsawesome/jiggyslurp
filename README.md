@@ -1,4 +1,8 @@
-# Slurp
+# JiggySlurp
+
+> **Fork of [Slurp](https://github.com/inhumantsar/slurp) by [inhumantsar](https://github.com/inhumantsar)**
+> Adds custom frontmatter support via settings and URI parameters.
+> See [FORK_CHANGES.md](FORK_CHANGES.md) for details on what's new.
 
 Slurps webpages, cleans off all the crud, and saves them to Obsidian as nice, tidy Markdown files. Think Pocket, but better.
 

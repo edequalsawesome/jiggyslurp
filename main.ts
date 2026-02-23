@@ -31,7 +31,16 @@ export default class SlurpPlugin extends Plugin {
 			if (!e.url || e.url === "") console.error("URI is empty or undefined");
 
 			try {
-				this.slurp(e.url);
+				// Extract custom frontmatter from URI parameters
+				const customFrontmatter: Record<string, string> = {};
+				for (const [key, value] of Object.entries(e)) {
+					// Skip the url parameter and any internal Obsidian params
+					if (key !== 'url' && typeof value === 'string') {
+						customFrontmatter[key] = value;
+					}
+				}
+
+				this.slurp(e.url, undefined, customFrontmatter);
 			} catch (err) { this.displayError(err as Error); }
 		});
 
@@ -83,6 +92,8 @@ export default class SlurpPlugin extends Plugin {
 			this.settings.defaultPath = DEFAULT_SETTINGS.defaultPath;
 		if (this.settings.frontmatterOnly === undefined)
 			this.settings.frontmatterOnly = DEFAULT_SETTINGS.frontmatterOnly;
+		if (this.settings.customFrontmatter === undefined)
+			this.settings.customFrontmatter = DEFAULT_SETTINGS.customFrontmatter;
 	}
 
 	migrateObjToMap<K, V>(obj: { [key: string]: V; }) {
@@ -125,8 +136,8 @@ export default class SlurpPlugin extends Plugin {
 
 	displayError = (err: Error) => new Notice(`Slurp Error! ${getErrorMessage(err)}`, 0);
 
-	async slurp(url: string, frontmatterOnlyOverride?: boolean): Promise<void> {
-		this.logger.debug("slurping", {url});
+	async slurp(url: string, frontmatterOnlyOverride?: boolean, customFrontmatter?: Record<string, string>): Promise<void> {
+		this.logger.debug("slurping", {url, customFrontmatter});
 		try {
 			const doc = new DOMParser().parseFromString(await fetchHtml(url), 'text/html');
 
@@ -152,18 +163,32 @@ export default class SlurpPlugin extends Plugin {
 				...mergedMetadata,
 				content: md,
 				link: url
-			});
+			}, customFrontmatter);
 		} catch (err) {
             this.logger.error("Unable to Slurp page", {url, err: (err as Error).message});
 			this.displayError(err as Error);
 		}
 	}
 
-	async slurpNewNoteCallback(article: IArticle) {
+	async slurpNewNoteCallback(article: IArticle, customFrontmatter?: Record<string, string>) {
 		const frontMatter = createFrontMatter(article, this.fmProps, this.settings.fm.includeEmpty);
 		this.logger.debug("created frontmatter", frontMatter);
 
-		const content = `---\n${frontMatter}\n---\n\n${article.content}`;
+		// Add custom frontmatter from settings
+		let finalFrontmatter = frontMatter;
+		if (this.settings.customFrontmatter && this.settings.customFrontmatter.trim() !== "") {
+			finalFrontmatter = `${frontMatter}\n${this.settings.customFrontmatter.trim()}`;
+		}
+
+		// Add custom frontmatter from URI parameters
+		if (customFrontmatter && Object.keys(customFrontmatter).length > 0) {
+			const customLines = Object.entries(customFrontmatter)
+				.map(([key, value]) => `${key}: ${value}`)
+				.join('\n');
+			finalFrontmatter = `${finalFrontmatter}\n${customLines}`;
+		}
+
+		const content = `---\n${finalFrontmatter}\n---\n\n${article.content}`;
 
 		this.logger.debug("writing file...");
 		const filePath = await getNewFilePath(this.app.vault, article.title, this.settings.defaultPath);

@@ -80,6 +80,7 @@ export const DEFAULT_SETTINGS: ISettings = {
     settingsVersion: 1,
     defaultPath: "Slurped Pages",
     frontmatterOnly: false,
+    customFrontmatter: "",
     fm: {
         includeEmpty: false,
         tags: {

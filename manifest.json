@@ -1,11 +1,10 @@
 {
-	"id": "slurp",
-	"name": "Slurp",
-	"version": "0.2.0",
+	"id": "jiggyslurp",
+	"name": "JiggySlurp",
+	"version": "0.3.0",
 	"minAppVersion": "0.15.0",
-	"description": "Slurps webpages and saves them as clean, uncluttered Markdown.",
-	"author": "inhumantsar",
-	"authorUrl": "https://github.com/inhumantsar",
-	"fundingUrl": "https://ko-fi.com/inhumantsar",
+	"description": "Slurps webpages with custom frontmatter support. Fork of Slurp by inhumantsar.",
+	"author": "edequalsawesome",
+	"authorUrl": "https://github.com/edequalsawesome",
 	"isDesktopOnly": false
 }

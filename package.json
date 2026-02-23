@@ -1,7 +1,7 @@
 {
-	"name": "slurp",
+	"name": "jiggyslurp",
 	"version": "0.3.0b1",
-	"description": "Slurps webpages and saves them as clean, uncluttered Markdown.",
+	"description": "JiggySlurp - Slurps webpages and saves them as clean Markdown with custom frontmatter support",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -19,7 +19,7 @@
 		"obsidian",
 		"obsidian-plugin"
 	],
-	"author": "inhumantsar",
+	"author": "edequalsawesome (fork of slurp by inhumantsar)",
 	"license": "MIT",
 	"devDependencies": {
 		"@tsconfig/svelte": "^5.0.4",

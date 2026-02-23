@@ -96,6 +96,7 @@ export interface ISettings {
     settingsVersion: number;
     defaultPath: string;
     frontmatterOnly: boolean;
+    customFrontmatter?: string;  // Add custom frontmatter string
     fm: IFrontMatterSettings;
     logs: ILogSettings;
 }
